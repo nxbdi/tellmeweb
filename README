@@ -1,6 +1,6 @@
 Tell-Me-Web (Automating WhatWeb from NMap output)
 ==================================================
-The tell-me-web takes gnmap output (-oG) generated together with -sV option.
+The tell-me-web takes nmap output in Grepable format (-oG) generated together with -sV option.
 It extracts all hosts with http & https ports open.
 Then it feeds them into whatweb. 
 
