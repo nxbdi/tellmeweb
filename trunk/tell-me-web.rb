@@ -26,12 +26,8 @@
 ################################################################################
 
 
-require 'erb'
 require 'fileutils'
-
-# path to whatweb
-$whatweb = '/pentest/web/whatweb/_git_working/WhatWeb/whatweb'
-$whatweb_opt = ' -U "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"  --follow-redirect=never -v '
+load 'whatweb.config'
 
 def print_banner
   puts "\n=============================================================
@@ -48,11 +44,22 @@ def errmsg(s)
     puts s.to_s
     exit!
 end
+
+def check_wwpath()    
+    unless File.exist?$whatweb
+        puts
+        puts '[X]  whatweb path not found!'
+        puts
+        puts '*Configure path to whatweb executable in $whatweb variable in whatweb.config file'
+        exit!
+    end     
+end
     
 def main()
 
-    print_banner
-
+    print_banner()
+    check_wwpath()
+      
     errmsg("\nUsage:\nruby #{$0} nmap-out-file-in-gnmap-format\nruby #{$0} nmap-out-file-in-gnmap-format A[ggressive]") if ARGV.length < 1
 
     nmapout = ARGV[0]
@@ -62,7 +69,7 @@ def main()
        errmsg('[x] File is not found or not valid!')
     end
     unless aggressive == nil
-        aggressive = ' -a 4 -r '
+        aggressive = $whatweb_aggressive
     else 
         aggressive = ' '
     end
@@ -137,7 +144,7 @@ def main()
             fn = tfn[0] + '_' + tfn[1] + '.whatweb ' 
             fn.gsub!("http://")
             fn.gsub!("https://")
-            wcmd = $whatweb + $whatweb_opt + ' --log-full=' + fn + aggressive  + target
+            wcmd = 'ruby ' + $whatweb + $whatweb_opt + ' --log-full=logs' + File::SEPARATOR + fn + aggressive  + target
             if aggressive =~ /a/
                 puts '**Aggressive Scan  -> ' + target
             else
@@ -146,21 +153,22 @@ def main()
             puts '   log file as ' + fn
             #puts '  [Start] ' + wcmd
             puts
-            r = system(wcmd)
+            system(wcmd)   
+            r = system(wcmd) 
             if r == nil || r == false
                 puts
-                puts '[X]  whatweb path not found!'
+                puts '[X]  Error in running whatweb command'
                 puts
-                puts '*Configure path to whatweb executable in $whatweb variable at line 33'
                 exit!
-            end            
+            end  
+            
             puts
             puts 
         end
     else
         puts   '[*] No http/https ports found in input file'
     end
-
+  sleep(3)
 puts 
 end
 
