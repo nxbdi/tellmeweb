@@ -35,7 +35,7 @@ $whatweb_opt = ' -U "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.
 
 def print_banner
   puts "\n=============================================================
-Tell Me Web?
+Tell Me Web? - Automating WhatWeb from NMap Output
  (c) Aung Khant, aungkhant[at]yehg.net
   YGN Ethical Hacker Group, Myanmar, http://yehg.net/
 
