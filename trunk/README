@@ -1,7 +1,7 @@
 Tell-Me-Web (Automating WhatWeb from NMap output)
 ==================================================
 The tell-me-web takes gnmap output (-oG) generated together with -sV option.
-It takes all hosts with http & https ports open.
+It extracts all hosts with http & https ports open.
 Then it feeds them into whatweb. 
 
 Brendan Coles wrote a similar script in bash which runs whatweb in all ports - https://gist.github.com/798148
